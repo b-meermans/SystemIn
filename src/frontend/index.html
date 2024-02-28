@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>System.in Testing</title>
+
+  <script src="https://cjrtnc.leaningtech.com/3.0/cj3loader.js"></script>
+
+    <script>
+    let submitPromiseResolve;
+    let submitPromise = new Promise(resolve => {
+        submitPromiseResolve = resolve;
+    });
+
+    async function onCheerpJLoaded() {
+        await cheerpjInit({
+            natives: {
+                async Java_CustomInputStream_getSystemIn(lib, str) {
+
+                    await submitPromise;
+                    var inputText = document.getElementById("inputText").value;
+                    submitPromise = new Promise(resolve => {
+                        submitPromiseResolve = resolve;
+                    });
+
+                    return inputText;
+                },
+            }
+        });
+        await cheerpjRunJar("/app/AopsApp.jar");
+    }
+
+    function handleSubmit() {
+        var inputText = document.getElementById("inputText").value;
+        submitPromiseResolve(inputText);
+        return false;
+    }
+  </script>
+</head>
+
+<body onload="onCheerpJLoaded();">
+
+
+  <div id="collapsibleTextAreaContainer">
+    <div id="collapsibleTextArea">
+      <textarea id="log-output" rows="15" cols="80" readonly></textarea>
+    </div>
+  </div>
+
+  <form onsubmit="handleSubmit(); return false;">
+    <input type="text" id="inputText" placeholder="Type something...">
+    <button type="submit">Submit</button>
+  </form>
+
+  <script src="js/console_output.js"></script>
+
+</body>
+</html>
