@@ -20,10 +20,23 @@ public class Main {
         boolean c = scanner.nextBoolean();
         System.out.println("Value is: " + c);
 
-        for (int i = 1; i < 5; i++) {
+        System.out.println("You will be entering five separate tokens");
+        for (int i = 0; i < 5; i++) {
             System.out.printf("%d) Enter any text: ", i);
             String input = scanner.next(); // This will call bar() method because of the custom InputStream
             System.out.println("Result: " + input);
         }
+
+        System.out.println("Type in a sentence:");
+        String sentence = scanner.nextLine();
+        System.out.println("The sentence was:\n" + sentence);
+
+        System.out.println("Type in a second sentence:");
+        sentence = scanner.nextLine();
+        System.out.println("The sentence was:\n" + sentence);
+
+        System.out.print("Finally, type in an int: ");
+        a = scanner.nextInt();
+        System.out.println("Final int: " + a);
     }
 }
