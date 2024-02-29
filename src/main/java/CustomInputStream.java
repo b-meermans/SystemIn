@@ -28,9 +28,11 @@ public class CustomInputStream extends InputStream {
     private void fetchData() {
         String data = getSystemIn();
 
-        if (data != null && !data.isEmpty()) {
-            buffer.append(data + "\n");
+        while (data == null || data.isEmpty()) {
+            data = getSystemIn();
         }
+
+        buffer.append(data + "\n");
     }
 
     public static native String getSystemIn();

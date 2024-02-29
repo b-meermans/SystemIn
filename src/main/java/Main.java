@@ -12,6 +12,10 @@ public class Main {
         int a = scanner.nextInt();
         System.out.println("Value is: " + a);
 
+        System.out.println("Type in a second int: ");
+        a = scanner.nextInt();
+        System.out.println("Second value is: " + a);
+
         System.out.println("Type in a double: ");
         double b = scanner.nextDouble();
         System.out.println("Value is: " + b);
@@ -34,6 +38,11 @@ public class Main {
         System.out.println("Type in a second sentence:");
         sentence = scanner.nextLine();
         System.out.println("The sentence was:\n" + sentence);
+
+        System.out.println("Type in a third sentence:");
+        sentence = scanner.nextLine();
+        System.out.println("The sentence was:\n" + sentence);
+
 
         System.out.print("Finally, type in an int: ");
         a = scanner.nextInt();
