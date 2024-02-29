@@ -19,16 +19,29 @@ public class CustomInputStream extends InputStream {
     }
 
     private void fetchData() {
-        String newData = String.valueOf(getSystemIn()) + "\n";
+        String data = getSystemIn();
 
-        System.out.println(newData);
-        if (newData != null && !newData.isEmpty()) {
-            buffer.append(newData);
+        if (data != null && !data.isEmpty()) {
+            System.out.println(data);
+            buffer.append(data + "\n\n");
         }
     }
 
+
+//    private int dummyIndex = 0;
+//    private String[] dummyData = {
+//            "1234",
+//            "3.14",
+//            "true",
+//            "hello",
+//            "this is four inputs"
+//    };
 //    public String getSystemIn() {
-//        return String.valueOf((int) (Math.random() * 5000));
+//        if (dummyIndex < dummyData.length) {
+//            return dummyData[dummyIndex++];
+//        }
+//        return "";
+//
 //    }
 
 

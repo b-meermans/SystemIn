@@ -11,11 +11,18 @@
         });
 
         let inputText = '';
+        let fakeResponse = true;
 
         async function onCheerpJLoaded() {
             await cheerpjInit({
                 natives: {
                     async Java_CustomInputStream_getSystemIn(lib, str) {
+
+                        fakeResponse = !fakeResponse;
+                        if (fakeResponse) {
+                            return '';
+                        }
+
                         var inputTextElement = document.getElementById("input-text");
                         inputTextElement.style.display = 'block';
                         inputTextElement.focus();
