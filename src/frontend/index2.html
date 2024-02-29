@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>System.in Testing</title>
+    <script src="https://cjrtnc.leaningtech.com/3.0/cj3loader.js"></script>
+    <script>
+        let submitPromiseResolve;
+        let submitPromise = new Promise(resolve => {
+            submitPromiseResolve = resolve;
+        });
+
+        let inputText = '';
+
+        async function onCheerpJLoaded() {
+            await cheerpjInit({
+                natives: {
+                    async Java_CustomInputStream_getSystemIn(lib, str) {
+                        var inputTextElement = document.getElementById("input-text");
+                        inputTextElement.style.display = 'block';
+                        inputTextElement.focus();
+
+                        await submitPromise;
+                        inputTextElement.value = '';
+                        inputTextElement.style.display = 'none';
+
+                        submitPromise = new Promise(resolve => {
+                            submitPromiseResolve = resolve;
+                        });
+
+                        return inputText;
+                    },
+                }
+            });
+            await cheerpjRunJar("/app/AopsApp.jar");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputTextElement = document.getElementById("input-text");
+            inputTextElement.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    inputText = inputTextElement.value;
+                    event.preventDefault();
+                    submitPromiseResolve(this.value);
+                    this.value = '';
+                    this.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</head>
+<body onload="onCheerpJLoaded();">
+<div id="console-container">
+    <textarea id="log-output" rows="10" cols="80" readonly></textarea>
+</div>
+<form>
+    <textarea id="input-text" placeholder="Type something..." style="display: none;"></textarea>
+</form>
+</body>
+</html>

@@ -1,42 +1,37 @@
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.io.IOException;
 
 public class CustomInputStream extends InputStream {
-    private byte[] buffer = new byte[0]; // Buffer for incoming data
-    private int position = 0; // Current position in the buffer
-
-    public CustomInputStream() {
-        super();
-    }
-
-    // Synchronized method to safely append new data from the native method
-    private synchronized void fetchDataIfNeeded() {
-        if (position >= buffer.length) { // Check if all current data has been read
-            String newData = getSystemIn() + "\n"; // Fetch new data (this method blocks until new data is available)
-            if (newData != null && !newData.isEmpty()) {
-                buffer = newData.getBytes(StandardCharsets.UTF_8); // Reset buffer with new data
-                position = 0; // Reset position
-            }
-        }
-    }
+    private StringBuilder buffer = new StringBuilder();
+    private int position = 0;
 
     @Override
-    public synchronized int read() throws IOException {
-        fetchDataIfNeeded(); // Check for and fetch new data if needed
-        if (position < buffer.length) {
-            return buffer[position++] & 0xFF; // Return next byte of data
-        } else {
-            return -1; // End of stream (if no new data was fetched)
+    public int read() throws IOException {
+        if (position >= buffer.length()) {
+            fetchData();
+        }
+
+        if (position >= buffer.length()) {
+            return -1;
+        }
+
+        return buffer.charAt(position++) & 0xFF;
+    }
+
+    private void fetchData() {
+        String newData = String.valueOf(getSystemIn()) + "\n";
+
+        System.out.println(newData);
+        if (newData != null && !newData.isEmpty()) {
+            buffer.append(newData);
         }
     }
 
+//    public String getSystemIn() {
+//        return String.valueOf((int) (Math.random() * 5000));
+//    }
 
-    /**
-     * Gets input from the front end.
-     * Note: Grabbing this data as a String, but could adjust to a byte[]
-     * @return the typed in content
-     */
+
+
     public static native String getSystemIn();
 }
