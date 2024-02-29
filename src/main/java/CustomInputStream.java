@@ -22,7 +22,7 @@ public class CustomInputStream extends InputStream {
         String data = getSystemIn();
 
         if (data != null && !data.isEmpty()) {
-            buffer.append(data + "\n\n");
+            buffer.append(data + "\n");
         }
     }
 
