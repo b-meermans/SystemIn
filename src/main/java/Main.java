@@ -27,9 +27,9 @@ public class Main {
             System.out.println("Result: " + input);
         }
 
-        System.out.println("Type in a sentence:");
+        System.out.println("This call is meant to grab the next line - but that nextLine should be skipped:");
         String sentence = scanner.nextLine();
-        System.out.println("The sentence was:\n" + sentence);
+        System.out.println("The data was:\n" + sentence);
 
         System.out.println("Type in a second sentence:");
         sentence = scanner.nextLine();
